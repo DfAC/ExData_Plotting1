@@ -1,20 +1,8 @@
 rm(list = ls(all = TRUE)) #clear environment
 
-#Plot3
-
-plot(Data$DT,Data$Sub_metering_1, type = 'l',  xlab ='',  ylab = 'Energy sub metering')
-lines(Data$DT,Data$Sub_metering_2, col='red')
-lines(Data$DT,Data$Sub_metering_3, col='blue')
-legend('topright',c('Sub_metering_1','Sub_metering_2','Sub_metering_3'),
-       lty=c(1,1,1), #define lines for legend
-       col=c('black','red','blue') #define line colors
-)
-#plot to file
-dev.copy(png,file = "plot3.png",width = 980, height = 980, units = "px", pointsize = 15)
-dev.off() #close device
+#### get data
 DataUrl<-file.path(getwd(),"household_power_consumption.txt")
 library(data.table)
-
 
 #### read data
 
@@ -39,8 +27,15 @@ Data[,c("Date","Time")]<-list(NULL)
 
 
 ###Plotting
-#Plot3
 
+#To avid text problems plot straight to device
+#lets first set device 
+
+png(file = "plot3.png",width = 480, height = 480, units = "px")
+dev.cur()
+
+#then plot to device
+par(mfrow = c(1, 1), mar = c(4, 4, 2, 1), oma = c(0, 0, 2, 0))
 plot(Data$DT,Data$Sub_metering_1, type = 'l',  xlab ='',  ylab = 'Energy sub metering')
 lines(Data$DT,Data$Sub_metering_2, col='red')
 lines(Data$DT,Data$Sub_metering_3, col='blue')
@@ -48,6 +43,4 @@ legend('topright',c('Sub_metering_1','Sub_metering_2','Sub_metering_3'),
        lty=c(1,1,1), #define lines for legend
        col=c('black','red','blue') #define line colors
 )
-#plot to file
-dev.copy(png,file = "plot3.png",width = 480, height = 480, units = "px", pointsize = 15)
 dev.off() #close device
